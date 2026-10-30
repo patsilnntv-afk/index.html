@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | PROSHOP V2</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="register-container">
+    <div class="register-box">
+
+      <select id="languageSelect">
+        <option value="lo">🇱🇦 ລາວ</option>
+        <option value="th">🇹🇭 ไทย</option>
+        <option value="en">🇬🇧 English</option>
+      </select>
+
+      <h1>PROSHOP <span>V2</span></h1>
+      <h2 data-i18n="welcome">Welcome Back</h2>
+      <p>Login to your account</p>
+
+      <form id="loginForm">
+        <input id="email" type="email"
+          placeholder="Email Address" required>
+
+        <input id="password" type="password"
+          placeholder="Password" required>
+
+        <button type="submit" data-i18n="login">Login</button>
+      </form>
+
+      <p id="message"></p>
+      <p>Don't have an account?
+        <a href="register.html" data-i18n="register">Register</a>
+      </p>
+    </div>
+  </div>
+
+  <script type="module" src="auth.js"></script>
+  <script src="language.js"></script>
+</body>
+</html>

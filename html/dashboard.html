@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROSHOP V2 - Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-section{display:none}
+    .page-section.active{display:block}
+    .menu-item{cursor:pointer}
+    .menu-item.active{border-color:#19d477;color:#42ef9a}
+    .form-card{max-width:650px}
+    .form-card label{display:block;color:#b5c9bc}
+    .notice{padding:13px;margin:15px 0;border:1px solid #28543a;border-radius:8px;color:#b5c9bc;background:#10251a}
+    .status-message{min-height:24px;margin:12px 0;color:#42ef9a;overflow-wrap:anywhere}
+    .history-item,.vip-card{padding:16px;margin:12px 0;background:#10251a;border:1px solid #28543a;border-radius:10px;overflow-wrap:anywhere}
+    .history-item small{color:#a6b9ac}
+    .history-status{color:#42ef9a}
+    .info-row{display:flex;justify-content:space-between;gap:15px;padding:12px 0;border-bottom:1px solid #28543a;overflow-wrap:anywhere}
+    .info-row span:last-child{text-align:right}
+    .menu-grid{margin-top:20px}
+    .top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .secondary-btn{background:#183b29;color:#fff;border:1px solid #28543a}
+    .vip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:15px}
+    .vip-card h3{color:#42ef9a}
+    .vip-card.current{border:2px solid #19d477}
+    .vip-card p{margin:7px 0;color:#b5c9bc}
+    .countdown{font-size:32px;font-weight:bold;color:#42ef9a;text-align:center;padding:15px}
+    .wallet-address{padding:12px;background:#10251a;border:1px solid #28543a;border-radius:8px;overflow-wrap:anywhere;word-break:break-all;color:#42ef9a}
+    @media(max-width:600px){
+      .info-row{flex-direction:column;gap:3px}
+      .info-row span:last-child{text-align:left}
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <h2>PRO<span>SHOP</span> V2</h2>
+  <div class="top-actions">
+    <select id="languageSelect" aria-label="Language">
+      <option value="lo">ລາວ</option>
+      <option value="th">ไทย</option>
+      <option value="en">English</option>
+    </select>
+    <button id="logoutBtn" type="button">ອອກຈາກລະບົບ</button>
+  </div>
+</header>
+
+<main class="container">
+  <p id="userEmail">ກຳລັງໂຫຼດບັນຊີ...</p>
+  <h1 id="pageTitle">Dashboard</h1>
+  <a id="adminLink" href="admin.html" hidden>Admin Panel</a>
+
+  <nav class="menu-grid">
+    <button class="menu-item active" data-page="home" type="button">🏠 Dashboard</button>
+    <button class="menu-item" data-page="balancePage" type="button">💰 Balance</button>
+    <button class="menu-item" data-page="depositPage" type="button">📥 Deposit</button>
+    <button class="menu-item" data-page="withdrawPage" type="button">📤 Withdraw</button>
+    <button class="menu-item" data-page="vipPage" type="button">👑 VIP Level</button>
+    <button class="menu-item" data-page="earningsPage" type="button">💵 ລາຍໄດ້</button>
+    <button class="menu-item" data-page="profitPage" type="button">📊 Profit Center</button>
+    <button class="menu-item" data-page="historyPage" type="button">📜 History</button>
+    <button class="menu-item" data-page="accountPage" type="button">👤 My Account</button>
+    <button class="menu-item" data-page="contactPage" type="button">☎️ Contact Admin</button>
+  </nav>
+
+  <!-- HOME -->
+  <section id="home" class="page-section active">
+    <div class="cards">
+      <div class="card">
+        <h3>ຍອດໃນບັນຊີ</h3>
+        <h2 id="balance">$0.00</h2>
+      </div>
+      <div class="card">
+        <h3>ລະດັບສະມາຊິກ</h3>
+        <h2 id="vipLevel">VIP0</h2>
+      </div>
+      <div class="card">
+        <h3>ຄຳຮ້ອງຝາກ</h3>
+        <h2 id="depositCount">0</h2>
+      </div>
+      <div class="card">
+        <h3>ຄຳຮ້ອງຖອນ</h3>
+        <h2 id="withdrawCount">0</h2>
+      </div>
+    </div>
+    <div class="notice">
+      ຍອດທີ່ສະແດງແມ່ນຂໍ້ມູນຈາກລະບົບ. ການປ່ຽນຍອດຈະມີປະຫວັດກວດສອບ.
+    </div>
+  </section>
+
+  <!-- BALANCE -->
+  <section id="balancePage" class="page-section">
+    <div class="card">
+      <h3>ຍອດໃນບັນຊີ</h3>
+      <h2 id="balancePageAmount">$0.00</h2>
+      <p>ຂໍ້ມູນອ່ານຈາກ Firestore.</p>
+    </div>
+  </section>
+
+  <!-- DEPOSIT -->
+  <section id="depositPage" class="page-section">
+    <div class="card form-card">
+      <h3>ຄຳຮ້ອງຝາກເງິນ</h3>
+      <div class="notice">
+        ຂັ້ນຕ່ຳ $1.00. ການສົ່ງຄຳຮ້ອງແມ່ນການສົ່ງຂໍ້ມູນເພື່ອກວດສອບ.
+      </div>
+      <form id="depositForm">
+        <label for="depositAmount">ຈຳນວນເງິນ (USD)</label>
+        <input id="depositAmount" type="number" min="1" max="100000" step="0.01" required placeholder="ຕົວຢ່າງ 10">
+
+        <label for="depositMethod">ວິທີຊຳລະ</label>
+        <select id="depositMethod" required>
+          <option value="">ເລືອກວິທີ</option>
+          <option value="USDT BEP20">USDT BEP20</option>
+          <option value="Bank transfer">Bank transfer</option>
+          <option value="Other">0x88119F1647064a3C9E35966761Bb0BF50550C569</option>
+        </select>
+
+        <label for="depositReference">ເລກອ້າງອີງ / ຂໍ້ມູນການຊຳລະ</label>
+        <input id="depositReference" type="text" minlength="4" maxlength="120" required>
+        <button id="depositSubmit" type="submit">ສົ່ງຄຳຮ້ອງ</button>
+      </form>
+      <p id="depositMessage" class="status-message"></p>
+    </div>
+  </section>
+
+  <!-- WITHDRAW -->
+  <section id="withdrawPage" class="page-section">
+    <div class="card form-card">
+      <h3>ຄຳຮ້ອງຖອນເງິນ</h3>
+      <div class="notice">
+        ຂັ້ນຕ່ຳ $0.25. ຄຳຮ້ອງຈະຖືກກວດສອບກ່ອນດຳເນີນການ.
+      </div>
+      <form id="withdrawForm">
+        <label for="withdrawAmount">ຈຳນວນເງິນ (USD)</label>
+        <input id="withdrawAmount" type="number" min="0.25" max="100000" step="0.01" required placeholder="ຕົວຢ່າງ 5">
+
+        <label for="withdrawMethod">ວິທີຮັບເງິນ</label>
+        <select id="withdrawMethod" required>
+          <option value="">ເລືອກວິທີ</option>
+          <option value="Bank transfer">Bank transfer</option>
+          <option value="USDT BEP20">USDT BEP20</option>
+          <option value="Other">ອື່ນໆ</option>
+        </select>
+
+        <label for="withdrawAccount">ເລກບັນຊີ / Wallet Address</label>
+        <input id="withdrawAccount" type="text" minlength="4" maxlength="120" required>
+        <button id="withdrawSubmit" type="submit">ສົ່ງຄຳຮ້ອງ</button>
+      </form>
+      <p id="withdrawMessage" class="status-message"></p>
+    </div>
+  </section>
+
+  <!-- VIP -->
+  <section id="vipPage" class="page-section">
+    <div class="card">
+      <h3>👑 ລະດັບ VIP ຂອງຂ້ອຍ</h3>
+      <h2 id="currentVIP">VIP0</h2>
+      <div class="info-row">
+        <span>ລະດັບປັດຈຸບັນ</span>
+        <span id="vipCurrentLevel">VIP0</span>
+      </div>
+      <div class="info-row">
+        <span>ຂັ້ນຕໍ່ໄປ</span>
+        <span id="nextVIPLevel">VIP1</span>
+      </div>
+      <div class="info-row">
+        <span>ເງື່ອນໄຂເລື່ອນຂັ້ນ</span>
+        <span id="vipRequirement">ກຳລັງໂຫຼດ...</span>
+      </div>
+      <div class="info-row">
+        <span>ອັດຕາຜົນຕອບແທນ</span>
+        <span id="vipRate">ຍັງບໍ່ກຳນົດ</span>
+      </div>
+      <div class="notice">
+        ອັດຕາແລະເງື່ອນໄຂ VIP ຈະສະແດງຕາມຄ່າທີ່ Admin ກຳນົດ ແລະມີແຫຼ່ງລາຍຮັບຮອງຮັບ.
+      </div>
+    </div>
+
+    <h3>ຕາຕະລາງ VIP</h3>
+    <div class="vip-grid">
+      <div class="vip-card" data-vip-card="0">
+        <h3>VIP 0</h3>
+        <p>ລະດັບເລີ່ມຕົ້ນ</p>
+        <p>ອັດຕາ: <span id="vipRate0">—</span></p>
+      </div>
+      <div class="vip-card" data-vip-card="1">
+        <h3>VIP 1</h3>
+        <p>ເງື່ອນໄຂ: <span id="vipRequirement1">—</span></p>
+        <p>ອັດຕາ: <span id="vipRate1">—</span></p>
+      </div>
+      <div class="vip-card" data-vip-card="2">
+        <h3>VIP 2</h3>
+        <p>ເງື່ອນໄຂ: <span id="vipRequirement2">—</span></p>
+        <p>ອັດຕາ: <span id="vipRate2">—</span></p>
+      </div>
+      <div class="vip-card" data-vip-card="3">
+        <h3>VIP 3</h3>
+        <p>ເງື່ອນໄຂ: <span id="vipRequirement3">—</span></p>
+        <p>ອັດຕາ: <span id="vipRate3">—</span></p>
+      </div>
+      <div class="vip-card" data-vip-card="4">
+        <h3>VIP 4</h3>
+        <p>ເງື່ອນໄຂ: <span id="vipRequirement4">—</span></p>
+        <p>ອັດຕາ: <span id="vipRate4">—</span></p>
+      </div>
+    </div>
+    <p id="vipMessage" class="status-message"></p>
+  </section>
+
+  <!-- EARNINGS -->
+  <section id="earningsPage" class="page-section">
+    <div class="card">
+      <h3>💵 ລາຍຮັບຂອງຂ້ອຍ</h3>
+      <h2 id="totalEarnings">$0.00</h2>
+
+      <div class="info-row">
+        <span>ລາຍຮັບຮອບທີ 1</span>
+        <span id="earningRound1">ລໍຖ້າຂໍ້ມູນ</span>
+      </div>
+      <div class="info-row">
+        <span>ລາຍຮັບຮອບທີ 2</span>
+        <span id="earningRound2">ລໍຖ້າຂໍ້ມູນ</span>
+      </div>
+
+      <h3>ເວລາກວດລາຍການ</h3>
+      <div id="earningCountdown" class="countdown">05</div>
+      <p id="earningStatus" class="status-message">
+        ລໍຖ້າການກວດສອບລາຍການ...
+      </p>
+
+      <div class="notice">
+        ຕົວນັບເວລາເປັນການສະແດງສະຖານະເທົ່ານັ້ນ. ຈະບໍ່ເພີ່ມເງິນເຂົ້າຍອດອັດຕະໂນມັດ ຖ້າບໍ່ມີລາຍການລາຍຮັບທີ່ກວດຢືນຢັນແລ້ວ.
+      </div>
+      <div id="earningHistory"></div>
+    </div>
+  </section>
+
+  <!-- PROFIT CENTER -->
+  <section id="profitPage" class="page-section">
+    <div class="card">
+      <h3>📊 Profit Center</h3>
+      <p>ສະແດງລາຍຮັບ ແລະປະຫວັດລາຍການທີ່ກວດສອບໄດ້.</p>
+      <div class="info-row">
+        <span>ລາຍຮັບລວມ</span>
+        <span id="profitTotal">$0.00</span>
+      </div>
+      <div class="info-row">
+        <span>VIP ປັດຈຸບັນ</span>
+        <span id="profitVIP">VIP0</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section id="historyPage" class="page-section">
+    <div class="card">
+      <h3>📜 ປະຫວັດລາຍການ</h3>
+      <button id="refreshHistoryBtn" class="secondary-btn" type="button">ໂຫຼດປະຫວັດໃໝ່</button>
+      <p id="historyMessage" class="status-message"></p>
+      <div id="historyList">ກຳລັງໂຫຼດ...</div>
+    </div>
+  </section>
+
+  <!-- ACCOUNT -->
+  <section id="accountPage" class="page-section">
+    <div class="card">
+      <h3>👤 My Account</h3>
+      <div class="info-row"><span>ຊື່</span><span id="accountName">—</span></div>
+      <div class="info-row"><span>Email</span><span id="accountEmail">—</span></div>
+      <div class="info-row"><span>UID</span><span id="accountUID">—</span></div>
+      <div class="info-row"><span>VIP</span><span id="accountVIP">VIP0</span></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contactPage" class="page-section">
+    <div class="card">
+      <h3>☎️ whatsapp</h3>
+      <p>ເບີໂທຕິດຕໍ່ Admin</p>
+      <div class="contact-number">2097192758</div>
+      <button id="copyAdminPhone" type="button">ຄັດລອກເບີໂທ</button>
+      <a href="tel:2097192758">ໂທຫາ Admin</a>
+      <p id="contactMessage" class="status-message"></p>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="dashboard.js"></script>
+</body>
+</html>

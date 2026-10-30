@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | PROSHOP V2</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-menu{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+    .admin-menu button{padding:12px 16px;border:1px solid #3b7d54;border-radius:9px;background:#14251b;color:#fff;cursor:pointer}
+    .admin-menu button.active{background:#168044}
+    .admin-page{display:none}
+    .admin-page.active{display:block}
+    .request-item,.member-item{background:#14251b;border:1px solid #31513b;border-radius:10px;padding:15px;margin:12px 0}
+    .request-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .approve-btn{background:#168044;color:white}
+    .reject-btn{background:#9d3030;color:white}
+    .small-note{font-size:12px;opacity:.75}
+    .admin-page input{max-width:100%;margin:6px 0}
+    .status{font-weight:bold}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <h2>PROSHOP <span>V2</span></h2>
+    <button id="logoutBtn" type="button">ອອກຈາກລະບົບ</button>
+  </nav>
+
+  <main class="container">
+    <h1>Admin Dashboard</h1>
+    <p>ສູນຈັດການລະບົບ</p>
+    <p class="small-note">ຍອດເງິນໃນໜ້ານີ້ເປັນຍອດຈຳລອງໃນລະບົບ ບໍ່ແມ່ນການໂອນເງິນຈິງ.</p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>ສະມາຊິກທັງໝົດ</h3>
+        <h2 id="totalMembers">0</h2>
+      </div>
+      <div class="card">
+        <h3>ຍອດຈຳລອງລວມ</h3>
+        <h2 id="totalBalance">$0.00</h2>
+      </div>
+      <div class="card">
+        <h3>ລາຍການລໍຖ້າ</h3>
+        <h2 id="pendingRequests">0</h2>
+      </div>
+    </div>
+
+    <div class="admin-menu">
+      <button class="active" data-page="membersPage">ສະມາຊິກ</button>
+      <button data-page="depositPage">ອະນຸມັດຝາກ</button>
+      <button data-page="withdrawPage">ອະນຸມັດຖອນ</button>
+      <button data-page="earningsPage">ຈັດການລາຍໄດ້</button>
+    </div>
+
+    <section id="membersPage" class="admin-page active card">
+      <h2>ຈັດການສະມາຊິກ</h2>
+      <input id="memberSearch" type="text" placeholder="ຄົ້ນຫາຊື່ ຫຼື Email">
+      <button id="searchBtn" type="button">ຄົ້ນຫາ</button>
+      <div id="vipMembers">ກຳລັງໂຫຼດ...</div>
+    </section>
+
+    <section id="depositPage" class="admin-page card">
+      <h2>ລາຍການຝາກ</h2>
+      <button id="refreshDeposits" type="button">ໂຫຼດຄືນ</button>
+      <div id="depositRequestsList">ກຳລັງໂຫຼດ...</div>
+    </section>
+
+    <section id="withdrawPage" class="admin-page card">
+      <h2>ລາຍການຖອນ</h2>
+      <button id="refreshWithdrawals" type="button">ໂຫຼດຄືນ</button>
+      <div id="withdrawalRequestsList">ກຳລັງໂຫຼດ...</div>
+    </section>
+
+    <section id="earningsPage" class="admin-page card">
+      <h2>ຈັດການລາຍໄດ້ສະມາຊິກ</h2>
+      <p>ໃສ່ UID ຂອງສະມາຊິກ ແລະຍອດລາຍໄດ້ທີ່ຕ້ອງການບັນທຶກ.</p>
+      <input id="earningsUid" type="text" placeholder="Member UID">
+      <input id="earningsAmount" type="number" min="0" step="0.01" placeholder="ຍອດລາຍໄດ້ USD">
+      <button id="saveEarningsBtn" type="button">ບັນທຶກລາຍໄດ້</button>
+      <p id="earningsMessage"></p>
+      <p class="small-note">ບັນທຶກສະເພາະຍອດທີ່ກວດຢືນຢັນແລ້ວ. ບໍ່ມີການຄຳນວນກຳໄລອັດຕະໂນມັດ.</p>
+    </section>
+
+    <p id="adminMessage"></p>
+  </main>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
